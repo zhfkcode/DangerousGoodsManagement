@@ -1,0 +1,77 @@
+.box-border {
+  border: 1px solid rgba(25,186,139,.17);
+  background: rgba(255,255,255,.04) url(../assets/images/line.png);
+  background-size: 100% auto;
+  position: relative;
+  z-index: 10;
+}
+.box-border:before, .box-border:after{
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  content: "";
+  border-top: 2px solid #02a6b5;
+  top: 0;
+}
+.box-border:before, .boxfoot:before {
+  border-left: 2px solid #02a6b5;
+  left: 0;
+}
+.box-border::after, .boxfoot:after {
+  border-right: 2px solid #02a6b5;
+  right: 0;
+}
+.boxfoot:before, .boxfoot:after {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  content: "";
+  border-bottom: 2px solid #02a6b5;
+  bottom: 0;
+}
+//element modify
+.el-table th, .el-table tr,.el-table, .el-table__expanded-cell {
+  background: rgba(120, 147, 236, 0.04);
+  color: #fff;
+}
+.el-table th>.cell {
+  color: #61d2f7;
+}
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: #072951;
+  box-shadow: -10px 0px 15px #2C58A6 inset, /*左边阴影*/ 10px 0px 15px #2C58A6 inset;
+}
+.el-table td, .el-table th.is-leaf {
+  border-bottom: 0;
+}
+.el-table--enable-row-hover .el-table__body tr:hover>td {
+  background: rgba(120, 147, 236, 0.16);
+}
+.el-table--border::after, .el-table--group::after, .el-table::before {
+  display: none;
+}
+.el-input--prefix .el-input__inner,.el-select .el-input__inne,.el-input__inner ,.el-date-editor .el-range-input,.el-input.is-disabled .el-input__inner{
+  background: transparent;
+  color: #fff;
+}
+//公共标题
+.com-title {
+  padding-left: 20px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+//百度地图
+.BMap_cpyCtrl {
+  display: none!important;
+}
+.anchorBL {
+  display: none!important;
+}
+//video
+.alarm-record .video-js .vjs-big-play-button {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

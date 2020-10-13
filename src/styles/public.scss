@@ -54,24 +54,109 @@
   background: transparent;
   color: #fff;
 }
+.el-input--prefix .el-input__inner,.el-select .el-input__inne,.el-input__inner ,.el-input.is-disabled .el-input__inner{
+  border: 1px solid #1A96EC;
+}
+.el-input__inner:hover,.el-select:hover .el-input__inner {
+  border: 1px solid #1A96EC;
+}
+.el-popover {
+  background: #07264E;
+  color: #fff;
+  border: 0;
+}
+.popo-top .el-popover{
+  bottom: 30px;
+  right: -160px;
+}
+.el-select-dropdown ,.el-picker-panel{
+  background: #001C3C;
+  border-color: rgba(25,186,139,.17);
+}
+.el-select-dropdown__item {
+  color: #DCF6FF;
+}
+.el-select-dropdown__item.selected,.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: #1F3561;
+}
+.el-picker-panel {
+  color: #fff;
+}
+.el-date-table td.next-month, .el-date-table td.prev-month{
+  color: #606266;
+}
+.el-date-table th {
+  border-bottom: solid 1px #203661;
+}
+.el-picker-panel__icon-btn {
+  color: #fff;
+}
+.el-date-table td.in-range div, .el-date-table td.in-range div:hover, .el-date-table.is-week-mode .el-date-table__row.current div, .el-date-table.is-week-mode .el-date-table__row:hover div{
+  background-color: #1F3561;
+}
+//及联
+.el-cascader-menu__list {
+  color: #fff;
+  background-color: #001C3C;
+}
+.el-cascader__dropdown {
+  border:0;
+}
+.el-cascader-node:not(.is-disabled):focus, .el-cascader-node:not(.is-disabled):hover{
+  background: #1F3561;
+}
+.el-cascader-menu {
+  border-right: 1px solid ;
+}
+.el-cascader:not(.is-disabled):hover .el-input__inner {
+  border-color: #1A96EC;
+}
+
+  //分页
+  .el-pagination button:disabled,.el-pager li,.el-pagination .btn-next,.el-pagination .btn-prev ,.el-pager li.btn-quicknext, .el-pager li.btn-quickprev{
+    background: transparent;
+    color:#51A8FF;
+  }
+  .el-pager li.active{
+   color: #fff;
+  }
+.el-popper[x-placement^=bottom] .popper__arrow,.el-popper[x-placement^=bottom] .popper__arrow::after,.el-popper[x-placement^=top] .popper__arrow::after{
+  border-bottom-color: rgba(25, 186, 139, 0.17);
+}
+///dialog
+.setdialog{
+  background: #001C3C;
+  color: #DCF6FF;
+  .el-dialog__title,.set-form{
+    color: #DCF6FF;
+  }
+  .label {
+    display: inline-block;
+    font-size: 18px;
+    line-height: 30px;
+    margin-bottom: 10px;
+  }
+
+}
 //公共标题
 .com-title {
   padding-left: 20px;
   color: #fff;
   font-size: 18px;
+  line-height: 40px;
   font-weight: 500;
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
+  &.center{
+    text-align: center;
+    padding-left: 0;
+  }
 }
-//百度地图
-.BMap_cpyCtrl {
-  display: none!important;
+.mar-20 {
+  margin-right: 20px;
 }
-.anchorBL {
-  display: none!important;
+.wid-120 {
+  width: 120px;
 }
-//video
-.alarm-record .video-js .vjs-big-play-button {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.wid-130 {
+  width: 130px;
 }

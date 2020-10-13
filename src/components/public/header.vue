@@ -1,10 +1,10 @@
 <template>
   <div class="head-wrap">
-    <ul class="menus">
+    <ul class="menus" v-if="!hiddenMenu">
       <router-link v-for="item in menus" :to="item.path" :key="item.path"  tag="li" class="menu-item">{{item.name}}</router-link>
     </ul>
-    <h1 class="title">工厂危险化学品安全检测预警系统</h1>
-    <h2 class="sub-title">--广州南乔化工厂</h2>
+    <h1 class="title" :class="{single: !subTitle}">工厂危险化学品安全监测预警系统</h1>
+    <h2 class="sub-title" v-if="subTitle">——{{subTitle}}</h2>
     <div class="date-weth">
       <div class="date">
         <div class="pick">
@@ -14,13 +14,16 @@
         <div class="time">{{ date.times }}</div>
       </div>
       <div class="weth">
-        <i class="el-icon-heavy-rain"></i>
-        <span class="desc">多云转小雨</span>
+        <!-- <i class="el-icon-heavy-rain"></i> -->
+        <!-- <span class="desc">多云转小雨</span> -->
+        <iframe scrolling="no" src="http://tianqiapi.com/api.php?style=yd&skin=cake&color=fff&fontsize=14&align=center" frameborder="0" width="80%" height="25" allowtransparency="true"></iframe>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {format} from '../../utils/commonFuns';
+import { getCompanyInfo } from '../../request/device'
 export default {
   data() {
     return {
@@ -29,13 +32,15 @@ export default {
         week: '',
         times: ''
       },
+      subTitle: "",
       menus: [
-        {path: '/index',name: '报警检测'},
+        {path: '/index',name: '报警监测'},
         {path: '/alarm',name: '报警记录'},
         {path: '/hisData',name: '历史数据'},
         {path: '/setting',name: '系统设置'},
       ],
-      timer: null
+      timer: null,
+      hiddenMenu: false
     }
   },
   created(){
@@ -43,13 +48,18 @@ export default {
     this.timer = setInterval(()=>{
       that.getCurrentDate()
     },1000)
+    this.getCompanyInfo()
+    // this.getCorrespond()
+    if(this.$route.name == 'locationSetting') {
+      this.hiddenMenu = true
+    }
   },
   methods: {
     getCurrentDate() {
       var myDate = new Date();
       var days = myDate.getDay();
       let weekArr = ['星期日', '星期一', '星期二', '星期三', '星期四','星期五','星期六']
-      let formDate = this.format(myDate,'yyyy-MM-dd hh:mm:ss')
+      let formDate = format('yyyy-MM-dd hh:mm:ss',myDate)
       let str = formDate.split(' ')
       this.date = {
         year: str[0],
@@ -58,24 +68,17 @@ export default {
       }
       return {};
     },
-    format (date,fmt) {
-    var o = {
-        "M+": date.getMonth() + 1,                   //月份
-        "d+": date.getDate(),                        //日
-        "h+": date.getHours(),                       //小时
-        "m+": date.getMinutes(),                     //分
-        "s+": date.getSeconds(),                     //秒
-        "q+": Math.floor((date.getMonth() + 3) / 3), //季度
-        "S": date.getMilliseconds()                  //毫秒
-    };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt))
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}   
-
+    getCompanyInfo() {
+       getCompanyInfo().then(res=>{
+        let data = res.data
+        this.subTitle = data.companyName
+      })
+    },
+    // getCorrespond() {
+    //   getCorrsponed().then(res=>{
+    //     localStorage.setItem('corrponsd',JSON.stringify(res.data))
+    //   })
+    // }
   },
   beforeDestroy(){
     clearInterval(this.timer)
@@ -95,12 +98,17 @@ export default {
     font-size: 28px;
     line-height: 60px;
     font-weight: bold;
+    &.single {
+      line-height: 80px;
+    }
   }
   .sub-title {
     position: absolute;
-    left: 50%;
+    left: 35%;
     top: 45px;
     color: #fff;
+    width: 35%;
+    text-align: right;
   }
   .date-weth {
     width: 23%;
@@ -113,6 +121,9 @@ export default {
   .date {
     display: flex;
     justify-content: center;
+  }
+  .pick {
+    white-space: nowrap;
   }
   .weth {
     align-self: center;

@@ -11,18 +11,18 @@
   opacity: 0;
 }
 
-/* fade-transform */
-.fade-transform-leave-active,
-.fade-transform-enter-active {
+/* faded-transform */
+.fadedd-transform-leave-active,
+.fadedd-transform-enter-active {
   transition: all .5s;
 }
 
-.fade-transform-enter {
+.fadedd-transform-enter {
   opacity: 0;
   transform: translateX(-30px);
 }
 
-.fade-transform-leave-to {
+.fadedd-transform-leave-to {
   opacity: 0;
   transform: translateX(30px);
 }
@@ -45,4 +45,19 @@
 
 .breadcrumb-leave-active {
   position: absolute;
+}
+//跳动
+@keyframes jumped{
+  0%{
+    transform: translateY(0);
+  }
+  50%{
+    transform: translateY(-15px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+.animate-jumped {
+  animation: jumped 1s infinite;
 }

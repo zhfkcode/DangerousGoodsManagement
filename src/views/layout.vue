@@ -1,7 +1,7 @@
 <template>
   <div class="main-app">
     <p-header></p-header>
-     <transition name="fade-transform" mode="out-in">
+     <transition name="fadedd-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
   </div>

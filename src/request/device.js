@@ -162,6 +162,22 @@ export function updataName(data) {
     data
   })
 }
+//删除主机
+export function deleteSn(data) {
+  return request({
+    url: '/sfcs/api/host/delete/by/sn',
+    method: 'post',
+    data
+  })
+}
+//删除探头
+export function deleteSensor(data) {
+  return request({
+    url: '/sfcs/api/sensor/delete/by/sn_sensorNum',
+    method: 'post',
+    data
+  })
+}
 
 /****设备点位设置 */
 //更新点位信息

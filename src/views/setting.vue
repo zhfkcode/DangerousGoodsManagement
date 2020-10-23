@@ -52,7 +52,7 @@
             <el-button type="primary"  @click="updataLocation">保  存</el-button>
           </li>
           <li class="com-item">
-             <el-select v-model='params.mainId'  style="width: 175px;" class="mar-20" placeholder="请选择主机">
+             <el-select v-model='params.mainId'  style="width: 195px;" class="mar-20" placeholder="请选择主机">
               <el-option v-for="item in hostList" :value='item.value' :label="item.label" :key="item.value"></el-option>
             </el-select>
             <label class="label">别名</label>
@@ -60,6 +60,17 @@
               <input type="text" v-model="params.labelName" class="inpt" placeholder="请输入别名">
             </div>
             <el-button type="primary"  @click="updataName">保  存</el-button>
+          </li>
+          <li class="com-item">
+            <label class="label auto">请选择要删除的主机或者探头</label>
+            <el-select v-model='params.delSn'  style="flex: 1;" class="mar-20" placeholder="请选择主机" @change="deleChange">
+              <el-option v-for="item in hostList" :value='item.value' :label="item.label" :key="item.value"></el-option>
+            </el-select>
+            <el-select v-model='params.delSm'  style="flex: 1;" class="mar-20" placeholder="请选择探头" :disabled="!params.delSn">
+              <el-option v-for="item in deletSenList" :value='item.value' :label="item.label" :key="item.value"></el-option>
+            </el-select>
+            <el-button type="primary"  @click="deleteName">删  除</el-button>
+            <div class="tips">温馨提醒: 如果删除主机，该主机下的所有探头也会被删除</div>
           </li>
           <!-- <li class="com-item">
             <el-button type="primary" style="width: 50%; margin: 0 auto;" @click="updataLocation">保  存</el-button>
@@ -91,7 +102,7 @@
 </template>
 <script>
 import {  corresponed, corresFuns} from '../utils/commonFuns'
-import { getAllMainNum, getCorrespondSn,getCompanyInfo,updataCompany,updataLocation,setLogin,updataName }  from '../request/device'
+import { getAllMainNum, getCorrespondSn,getCompanyInfo,updataCompany,updataLocation,setLogin,updataName,deleteSn,deleteSensor }  from '../request/device'
 export default {
   data() {
     return {
@@ -107,17 +118,28 @@ export default {
         labelName: '',
         name: '',
         mainId: '',
+        delSn: '',
+        delSm: ''
       },
+      deleteNum: [],
       hostList: [],
       //及联参数：
       cascaderOpt: [],
+      cascaderOpt1: [],
       props: {
+        lazy: true,
+        lazyLoad: this.lazyLoad
+      },
+      props1: {
+        checkStrictly: true,
         lazy: true,
         lazyLoad: this.lazyLoad
       },
       password: '',
       setFormDialog: true,
-      corrList: []
+      corrList: [],
+      deletSnList: {},
+      deletSenList: [],
     }
   },
   created(){
@@ -190,6 +212,8 @@ export default {
         })
         this.hostList = mapList
         this.cascaderOpt = mapList
+        this.cascaderOpt1 = mapList
+        this.showCase = true
         // this.echFilter.mainIdList = res.data
       })
     },
@@ -218,6 +242,60 @@ export default {
       setLogin({super_password: this.password}).then(res=>{
         this.setFormDialog = false;
       })
+    },
+    //删除主机探头
+    deleteName() {
+      const snstat = this.params.delSn
+      const senstat = this.params.delSm
+      if(!snstat && !senstat) {
+        this.$message.warning('请选择要删除的主机/探头')
+        return false
+      }
+      const text = !senstat ? '删除主机将删除主机下所有探头，确定删除？' : '确定删除探头？'
+      this.$confirm(text,'删除提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(( )=> {
+        if(!senstat){
+          deleteSn({sn: this.params.delSn}).then(res=>{
+            this.$message.success('删除成功')
+            this.params.delSn= ''
+            this.params.delSm= ''
+            this.getAllMainId()
+          })
+        }else {
+          deleteSensor({ sn: this.params.delSn, sensor_num: this.params.delSm}).then(res => {
+            this.$message.success('删除成功')
+            this.params.delSn= ''
+            this.params.delSm= ''
+            this.getAllMainId()
+          })
+        }
+      }).catch(() => {
+
+      })
+    },
+    deleChange() {
+      const sn = this.params.delSn
+      if(!sn){
+        return []
+      }
+      if(this.deletSnList[sn]){
+        this.deletSenList = this.deletSnList[sn]
+      }else {
+         getCorrespondSn({sn}).then(res=>{
+         let data = res.data.map(item=>{
+            return {
+              value: item,
+              label: item,
+            }
+          })
+          this.deletSenList = data
+          this.deletSnList[sn] =  data
+        })
+      }
     }
   }
 }
@@ -249,6 +327,7 @@ export default {
     width: 50%;
     margin: 0 auto;
     .com-item {
+      position: relative;
       padding: 5px 10px;
       margin-bottom: 20px;
       display: flex;
@@ -259,6 +338,9 @@ export default {
       color: #DCF6FF;
       line-height: 40px;
       margin-right: 20px;
+      &.auto {
+        width: auto;
+      }
     }
     .input-box {
       flex: 1;
@@ -296,6 +378,13 @@ export default {
     .label {
       font-size: 18px;
     }
+  }
+  .tips {
+    position: absolute;
+    bottom: -20px;
+    left: 20px;
+    font-size: 12px;
+    color: #ccc;
   }
   //placehoder设置
   ::-webkit-input-placeholder { /* WebKit, Blink, Edge */

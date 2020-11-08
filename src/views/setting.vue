@@ -12,7 +12,7 @@
         <li class="com-item">
           <label class="label">监测种类</label>
           <div class="input-box">
-            <input type="text" v-model="comInfo.monitorType" class="inpt" placeholder="输入检测种类">
+            <input type="text" v-model="comInfo.monitorType" class="inpt" placeholder="输入监测种类">
           </div>
         </li>
         <li class="com-item">

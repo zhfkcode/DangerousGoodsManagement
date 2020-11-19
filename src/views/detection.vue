@@ -106,7 +106,7 @@
 <script>
 import echarts from 'echarts'
 import { lineOption } from '../utils/eOptions'
-import { format, corresponed,corresFuns } from '../utils/commonFuns'
+import { format, corresponed,corresFuns,getLocalItem } from '../utils/commonFuns'
 import { getAlarmEcharts, getAlarmTable, getAlarmFilter, getAllMainNum, getCorrespondSn } from "../request/device";
 let _ = require('lodash')
 export default {
@@ -140,10 +140,12 @@ export default {
         lazy: true,
         lazyLoad: this.lazyLoad
       },
-      corrList: []
+      corrList: [],
+      username: ''
     }
   },
   created(){
+    this.username = getLocalItem('account')
      corresponed((res)=>{
       this.corrList = res ? res : [] 
       this.getAlarTable()
@@ -249,7 +251,7 @@ export default {
     getAlarTable(download) {
       let pageNum = download ?  0 : this.pages.pageNum-1
       let pagesize = download ?  this.pages.total : this.pages.pageSize
-      getAlarmTable({page: pageNum, size: pagesize}).then(res=>{
+      getAlarmTable({page: pageNum, size: pagesize,username: this.username}).then(res=>{
         // console.log(res);
         if(download){
           let exportData = res.data.content.map((item)=>{
@@ -342,7 +344,7 @@ export default {
     },
      //获取所有主机编号
     getAllMainId() {
-      getAllMainNum().then(res=>{
+      getAllMainNum({username: this.username}).then(res=>{
         this.cascaderOpt = res.data.map(item=>{
           
           let name = corresFuns(this.corrList,item)

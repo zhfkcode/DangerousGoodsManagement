@@ -155,7 +155,7 @@
   </div>
 </template>
 <script>
-import { format, getImgNaturalDimensions, corresponed,corresFuns } from '../utils/commonFuns'
+import { format, getImgNaturalDimensions, corresponed,corresFuns,getLocalItem } from '../utils/commonFuns'
  import mqtt from 'mqtt'
 import { getCompanyInfo, getAlarmCount, getControlCount, getLastAlarm, getPicture } from '../request/device'
 import { log } from 'util'
@@ -187,10 +187,12 @@ export default {
         x: 0,
         y: 0
       },
-      corrList: []
+      corrList: [],
+      username: ''
     }
   },
   mounted(){
+    this.username = getLocalItem('account')
     const options = {
       connectTimeout: 40000,
       clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
@@ -210,18 +212,21 @@ export default {
   },
   methods:{
     getList(){
-      getCompanyInfo().then(res=>{
+      const param = {
+        username: this.username
+      }
+      getCompanyInfo(param).then(res=>{
         let data = res.data
          this.survey = {...this.survey,...data}
       })
-      this.timer =  setInterval(()=>{
-        this.getAllSen()
-      },2000)
-      getAlarmCount().then(res=>{
+      // this.timer =  setInterval(()=>{
+      //   this.getAllSen()
+      // },2000)
+      getAlarmCount(param).then(res=>{
       this.survey.alarmCounts = res.data
       })
       //获取最近报警信息
-      getLastAlarm().then(res=>{
+      getLastAlarm(param).then(res=>{
         this.infos = res.data.map((item)=>{
           item.labName = corresFuns(this.corrList,item.sn)
           return item
@@ -229,7 +234,7 @@ export default {
         // this.mqttConnect()
       })
       //获取图片
-      getPicture().then(res=>{
+      getPicture(param).then(res=>{
         this.backImg = res.data
         this.getAllSen()
        this.$nextTick(()=>{
@@ -254,7 +259,7 @@ export default {
     },
     //获取所有探头信息
     getAllSen() {
-      getControlCount().then(res=>{
+      getControlCount({username: this.username}).then(res=>{
         this.survey.controls = res.data.length
         this.detetionList = res.data.map(item=>{
           item.isShow = (this.remeberClick.sn == item.sn && this.remeberClick.sensorNum == item.sensorNum) ? true : false

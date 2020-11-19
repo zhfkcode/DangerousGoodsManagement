@@ -34,7 +34,8 @@ export function getImgNaturalDimensions(oImg, callback) {
     // 　　}
     }
     export function corresponed (callback) {
-        getCorrsponed().then(res => {
+        const acct = getLocalItem('account')
+        getCorrsponed({username: acct}).then(res => {
             // list.map(item=>{
             //     if(item.sn == val){
             //         item.labelName=item.snName
@@ -60,4 +61,10 @@ export function corresFuns(list, val){
         }
     })
     return  labeName
+}
+export function getLocalItem(name) {
+    return localStorage.getItem(name)
+}
+export function rmLocalItem(name) {
+    return localStorage.removeItem(name)
 }

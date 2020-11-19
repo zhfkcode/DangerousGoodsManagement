@@ -99,7 +99,7 @@
 <script>
 import echarts from 'echarts'
 import { lineOption2 } from '../utils/eOptions'
-import { format , corresponed, corresFuns} from '../utils/commonFuns'
+import { format , corresponed, corresFuns,getLocalItem} from '../utils/commonFuns'
 import { getAllMainNum, getCorrespondSn,getAllHistory,getHistoryFilter,getHistEchart }  from '../request/device'
 let _ = require('lodash')
 export default {
@@ -137,10 +137,12 @@ export default {
       tableHeight: null,
       echartsInstance: null,
       searchModal: false,
-      corrList: []
+      corrList: [],
+      username: ''
     }
   },
   created(){
+    this.username = getLocalItem('account')
      corresponed((res)=>{
       this.corrList = res ? res : [] 
       this.getAlarTable()
@@ -269,7 +271,7 @@ export default {
         }
       let pageNum = this.pages.pageNum-1
       let pagesize = this.pages.pageSize
-      getAllHistory({page: pageNum, size: pagesize}).then(res=>{
+      getAllHistory({page: pageNum, size: pagesize,username: this.username}).then(res=>{
         // console.log(res);
         this.tableData = res.data.content.map((item)=>{
           item.labName = corresFuns(this.corrList,item.sn)
@@ -324,7 +326,7 @@ export default {
     },
     //获取所有主机编号
     getAllMainId() {
-      getAllMainNum().then(res=>{
+      getAllMainNum({username: this.username}).then(res=>{
         this.cascaderOpt = res.data.map(item=>{
          let name = corresFuns(this.corrList,item)
           return {

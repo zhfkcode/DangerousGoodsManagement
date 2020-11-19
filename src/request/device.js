@@ -12,7 +12,40 @@ export function setLogin(data) {
 // login
 export function accountLogin(data) {
   return request({
-    url: '/sfcs/api/login/account',
+    url: '/sfcs/login/account',
+    method: 'post',
+    data
+  })
+}
+// login
+export function publicLogin(data,headers) {
+  return request({
+    url: '/sfcs/oauth/token',
+    method: 'post',
+    data,
+    headers
+  })
+}
+// register
+export function register(data) {
+  return request({
+    url: '/sfcs/register/company',
+    method: 'post',
+    data
+  })
+}
+// forgetPassword
+export function forgetWord(data) {
+  return request({
+    url: '/sfcs/reset/pwd_auth',
+    method: 'post',
+    data
+  })
+}
+// sendEmail
+export function sendEmail(data) {
+  return request({
+    url: '/sfcs/mail/send/auth_code',
     method: 'post',
     data
   })
@@ -29,7 +62,7 @@ export function getCompanyInfo(params) {
 //获取报警总次数
 export function getAlarmCount(params) {
   return request({
-    url: '/sfcs/api/historyAlarm/get/count',
+    url: '/sfcs/api/historyAlarm/get/count/by/username',
     method: 'get',
     params
   })
@@ -37,7 +70,7 @@ export function getAlarmCount(params) {
 //获取报警点个数
 export function getControlCount(params) {
   return request({
-    url: '/sfcs/api/sensor/get/all',
+    url: '/sfcs/api/sensor/get/all/by/username',
     method: 'get',
     params
   })
@@ -61,7 +94,7 @@ export function getPicture(params) {
 //获取主机名称对应关系
 export function getCorrsponed(params) {
   return request({
-    url: '/sfcs/api/host/get/all',
+    url: '/sfcs/api/host/get/all/by/username',
     method: 'get',
     params
   })
@@ -79,7 +112,7 @@ export function getAlarmEcharts(data) {
 //获取历史报警表格数据
 export function getAlarmTable(data) {
   return request({
-    url: '/sfcs/api/historyAlarm/get/by/page',
+    url: '/sfcs/api/historyAlarm/get/by/page_and_username',
     method: 'post',
     data
   })
@@ -108,7 +141,7 @@ export function getHistEchart(data, _this) {
 //获取所有主机编号
 export function getAllMainNum(params) {
   return request({
-    url: '/sfcs/api/sensor/get/all/sn',
+    url: '/sfcs/api/sensor/get/all/sn/by/username',
     method: 'get',
     params
   })
@@ -124,7 +157,7 @@ export function getCorrespondSn(data) {
 //表格所有数据
 export function getAllHistory(data) {
   return request({
-    url: '/sfcs/api/historyValue/get/by/page',
+    url: '/sfcs/api/historyValue/get/by/page_and_username',
     method: 'post',
     data
   })
@@ -202,6 +235,22 @@ export function picLoad(data,headers) {
 export function probeInfos(data ){
   return request({
     url: '/sfcs/api/sensor/get/info/by/sn_sensorNum',
+    method: 'post',
+    data
+  })
+}
+/***   添加主机 */
+export function addHoust(data ){
+  return request({
+    url: '/sfcs/api/host/add',
+    method: 'post',
+    data
+  })
+}
+/***   解绑主机 */
+export function offHoust(data ){
+  return request({
+    url: '/sfcs/api/host/cancel/bind',
     method: 'post',
     data
   })

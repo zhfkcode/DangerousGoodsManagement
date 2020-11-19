@@ -101,7 +101,7 @@
   </div>
 </template>
 <script>
-import {  corresponed, corresFuns} from '../utils/commonFuns'
+import {  corresponed, corresFuns,getLocalItem} from '../utils/commonFuns'
 import { getAllMainNum, getCorrespondSn,getCompanyInfo,updataCompany,updataLocation,setLogin,updataName,deleteSn,deleteSensor }  from '../request/device'
 export default {
   data() {
@@ -130,25 +130,23 @@ export default {
         lazy: true,
         lazyLoad: this.lazyLoad
       },
-      props1: {
-        checkStrictly: true,
-        lazy: true,
-        lazyLoad: this.lazyLoad
-      },
       password: '',
       setFormDialog: true,
       corrList: [],
       deletSnList: {},
       deletSenList: [],
+      username: ''
     }
   },
   created(){
+    this.username = getLocalItem('account')
     // this.getAllMainId()
     this.getCompany()
      corresponed((res)=>{
       this.corrList = res ? res : [] 
       this.getAllMainId()
     })
+    
   },
   methods: {
     //获取公司信息
@@ -164,7 +162,8 @@ export default {
         monitor_type : this.comInfo.monitorType,
         password : this.comInfo.pwd,
         safety_officer : this.comInfo.safetyOfficer,
-        super_password : this.comInfo.superPwd
+        super_password : this.comInfo.superPwd,
+        username: this.username
       }
       updataCompany(params).then(res=>{
         res.code ==200 ? this.$message.success('公司信息更新成功') : this.$message.error('公司信息更新失败')

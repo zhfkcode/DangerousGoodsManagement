@@ -1,3 +1,44 @@
 @import './reset.scss';
 @import './transition.scss';
 @import './public.scss';
+
+//el-reset
+.login-form {
+  .el-input__inner {
+    padding: 0 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 29px;
+    border: 1px solid rgba(255,255,255,0.7);
+  }
+  .el-input__prefix {
+    left: 20px;
+  }
+  .fillword .el-input__icon{
+    color: #fff;
+  }
+  .el-input__icon{
+    font-size: 20px;
+  }
+  .el-button {
+    border-radius: 25px;
+    height: 50px;
+    // background-color: rgba(255,255,255,0.1);
+    border: 0;
+    color: #fff;
+  }
+}
+.seting-container .el-menu {
+  background-color: transparent;
+  border-right-color:rgba(25, 186, 139, 0.17);
+  height: 100%;
+}
+.seting-container .el-menu-item {
+  color: #fff;
+  &.is-active{
+    color: #409EFF;
+  }
+}
+.seting-container .el-menu-item:focus, .el-menu-item:hover {
+  background-color: rgba(255,255,255,0.1);
+}

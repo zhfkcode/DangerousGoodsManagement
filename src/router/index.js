@@ -34,12 +34,12 @@ const routes = [
       {
         path:'/setting',
         name: 'setting',
-        component: () => import(/* webpackChunkName: "about" */ '../views/setting.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/setting/index.vue')
       },
       {
         path: '/locationSetting',
         name: 'locationSetting',
-        component: () => import(/* webpackChunkName: "about" */ '../views/hiddenSet.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/setting.vue')
       },
     ]
   },
@@ -50,8 +50,29 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/login.vue')
-  }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/register.vue')
+  },
+  {
+    path: '/forgetPwd',
+    name: 'forgetPwd',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/forgetPassword.vue')
+  },
 ]
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+    if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+    return originalPush.call(this, location).catch(err => err)
+}
 
 const router = new VueRouter({
   mode: 'history',
@@ -60,11 +81,14 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let isLogin = sessionStorage.getItem('hasLogin')
-  if(to.path=='/login'|| isLogin){
-    next()
-  }else {
+  // let isLogin = sessionStorage.getItem('hasLogin')
+  const whiteList = ['/register','/login','/forgetPwd']
+  const token = localStorage.getItem('token')
+  if(!token && !whiteList.includes(to.path)){
     next('/login')
-  }
+  }else if(token){
+    next()
+  }else {}
+  next()
 })
 export default router

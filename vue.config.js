@@ -6,13 +6,24 @@ module.exports = {
   productionSourceMap: false,
   devServer:{
     proxy:{
-        '/api':{
-            target: 'http://47.102.98.102:8083/',//代理地址，这里设置的地址会代替axios中设置的baseURL
+        '/sfcs':{
+            target: 'http://139.196.141.39:8085/',//代理地址，这里设置的地址会代替axios中设置的baseURL
             changeOrigin: true,// 如果接口跨域，需要进行这个参数配置
             //ws: true, // proxy websockets
             //pathRewrite方法重写url
             pathRewrite: {
-                '^/api': '/api' 
+                '^/sfcs': '/sfcs' 
+                //pathRewrite: {'^/api': '/'} 重写之后url为 http://192.168.1.16:8085/xxxx
+                //pathRewrite: {'^/api': '/api'} 重写之后url为 http://192.168.1.16:8085/api/xxxx
+           }
+        },
+        '/apd':{
+            target: 'http://139.196.141.39:8085/',//代理地址，这里设置的地址会代替axios中设置的baseURL
+            changeOrigin: true,// 如果接口跨域，需要进行这个参数配置
+            //ws: true, // proxy websockets
+            //pathRewrite方法重写url
+            pathRewrite: {
+                '^/apd': '/' 
                 //pathRewrite: {'^/api': '/'} 重写之后url为 http://192.168.1.16:8085/xxxx
                 //pathRewrite: {'^/api': '/api'} 重写之后url为 http://192.168.1.16:8085/api/xxxx
            }

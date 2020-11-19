@@ -69,7 +69,8 @@ export default {
       return {};
     },
     getCompanyInfo() {
-       getCompanyInfo().then(res=>{
+      const acct = localStorage.getItem('account')
+       getCompanyInfo({username: acct}).then(res=>{
         let data = res.data
         this.subTitle = data.companyName
       })

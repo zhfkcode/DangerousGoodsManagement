@@ -3,14 +3,14 @@
     <img src="../assets/hq-logo.png" alt="logo" class="logo-img">
     <div class="form">
       <el-form
-        ref="loginForm"
+        ref="forgetForm"
         :model="loginForm"
         :rules="loginRules"
         class="login-form"
         auto-complete="on"
         label-position="left"
       >
-      <h2 class="lg-title">工厂危险化学品安全监测预警系统</h2>
+      <h2 class="lg-title">重置密码</h2>
         <el-form-item prop="account">
           <el-input
             :class="loginForm.account ? 'fillword' : ''"
@@ -21,18 +21,30 @@
         </el-form-item>
       <el-form-item prop="password">
         <el-input
-          :class="loginForm.account ? 'fillword' : ''"
+          :class="loginForm.password ? 'fillword' : ''"
           prefix-icon="el-icon-lock"
           v-model="loginForm.password"
           type="password"
           placeholder="请输入密码"
         />
       </el-form-item>
-      <router-link to='/forgetPwd' class="forget">忘记密码</router-link>
+      <el-form-item prop="code">
+        <el-input
+          :class="loginForm.code ? 'fillword' : ''"
+          prefix-icon="el-icon-key"
+          v-model="loginForm.code"
+          placeholder="请输入验证码"
+          class="code-btn"
+        />
+        <el-button class="code-put" type="primary" :disabled='countdown' @click="countClick">
+          <span v-if="!countdown">获取验证码</span>
+          <span v-else>{{countNum}}</span>
+        </el-button>
+      </el-form-item>
       <div class="submit">
-        <el-button @click="Login" type="primary" round class="btn" :loading="loading">登录</el-button>
+        <el-button @click="Login" type="primary" round class="btn" :loading="loading">重置</el-button>
         <router-link to='/register'>
-          <el-button type="success" class="btn">注册</el-button>
+          <el-button type="success" class="btn">返回</el-button>
         </router-link>
       </div>
       </el-form>
@@ -41,52 +53,75 @@
   </div>
 </template>
 <script>
-let _ = require('lodash')
 import canDraw from '../utils/canvas'
-import {publicLogin} from '../request/device'
-import { log } from 'util'
+import {forgetWord, sendEmail} from '../request/device'
 export default {
   data() {
     return {
       loginForm: {
-      account: 'zhlearn@sina.com',
-      password: '123456',
+        account: '',
+        password: '',
+        code: ""
       },
-      loginRules: {},
-      loading: false
+      loginRules: {
+        account: [{required: true,message: '请输入用户名', trigger: "blur"}],
+        password: [{required: true,message: '请输入密码', trigger: "blur"}],
+        code: [{required: true,message: '请输入验证码', trigger: "blur"}],
+      },
+      loading: false,
+      countdown: false,
+      countNum: 60,
+      timer: null
     }
-  },
-  created(){
-
   },
   mounted(){
     this.$nextTick(()=>canDraw())
-    //  window.onresize = _.debounce(() => {
-    //   }, 400)
   },
   methods:{
     Login() {
-      this.$refs.loginForm.validate(valid => {
+        this.$refs.forgetForm.validate(valid => {
         if(!valid) {return false}
         if(this.loading){return false}
         this.loading = true;
         const params = {
-          grant_type: 'password',
+          code: this.loginForm.code,
           username: this.loginForm.account,
-          password: this.loginForm.password,
+          pwd: this.loginForm.password,
         }
-        publicLogin(params, {
-          Authorization: 'Basic aGVxaW5nQXBpOmhlcWluZzk5OQ=='
-        }).then(res=>{
-          console.log(res);
-          const {tokenType, value} =res.data
-          localStorage.setItem('token',tokenType+' '+ value)
-          localStorage.setItem('account',this.loginForm.account)
-          this.$router.push({path:'index'})
+        forgetWord(params).then(res=>{
+          if(res.code === 200){
+             this.$router.push({path:'/login'})
+          }
            this.loading = false
         }).catch(err=>{
           this.loading = false
         })
+      })
+    },
+    //倒计时
+    countClick() {
+      if(!this.loginForm.account) {
+        this.$message.error('请输入用户名')
+        return false
+      }
+      if(this.countdown) {
+        return false
+      }
+      this.countdown = true
+      this.timer = setInterval(() => {
+        if(this.countNum > 0){
+          this.countNum--
+        }else {
+          this.countdown = false
+          this.countNum = 60
+          clearInterval(this.timer)
+          this.timer = null
+        }
+      },1000)
+      sendEmail({username: this.loginForm.account}).then(res=> {
+        if(res.code === 200 ) {
+          this.$message.success('获取成功')
+        }
       })
     }
   },
@@ -124,12 +159,6 @@ export default {
       line-height: 70px;
       margin-bottom: 70px;
     }
-   .forget {
-     float: right;
-     margin: -10px 20px 40px;
-    font-size: 14px;
-    color: rgba(255,255,255,0.5);
-  }
     .submit {
       margin-top:30px;
       font-size: 16px;
@@ -139,6 +168,13 @@ export default {
       width: 100%;
       margin-bottom: 20px;
       font-size: 18px;
+    }
+    .code-btn {
+      width: 70%;
+    }
+    .code-put {
+      width: 110px;
+      float: right;
     }
   }
   .canvas{position: absolute; width:100%; left: 0; top: 0; height: 99%; z-index: 1;}

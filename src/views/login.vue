@@ -124,6 +124,7 @@ export default {
           this.$router.push({path:'index'})
            this.loading = false
         }).catch(err=>{
+          console.log(err);
           this.loading = false
         })
       })

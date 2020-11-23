@@ -79,15 +79,16 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log('err' ,error.response) // for debug
+    let err = error.response ? error.response.data : {}
    if(error != 'Cancel'){
     Message({
-      message: error.msg || "请求失败",
+      message: err.msg || "请求失败",
       type: 'error',
       duration: 5 * 1000
     })
    }
-    return Promise.reject(error)
+    return Promise.reject(err)
   }
 )
 

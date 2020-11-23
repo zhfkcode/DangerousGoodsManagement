@@ -9,6 +9,12 @@
           </div>
         </li>
         <li class="com-item">
+          <label class="label">公司联络人电话</label>
+          <div class="input-box">
+            <input v-model="comInfo.phone" type="text" class="inpt" placeholder="输入公司名称">
+          </div>
+        </li>
+        <li class="com-item">
           <label class="label">监测种类</label>
           <div class="input-box">
             <input type="text" v-model="comInfo.monitorType" class="inpt" placeholder="输入监测种类">
@@ -71,6 +77,7 @@ export default {
         company_name: this.comInfo.companyName,
         monitor_type : this.comInfo.monitorType,
         password : this.comInfo.pwd,
+        phone : this.comInfo.phone,
         safety_officer : this.comInfo.safetyOfficer,
         super_password : this.comInfo.superPwd,
         username: getLocalItem('account')
@@ -93,7 +100,7 @@ export default {
       display: flex;
     }
     .label {
-      width: 80px;
+      width: 120px;
       font-size: 16px;
       color: #DCF6FF;
       line-height: 40px;

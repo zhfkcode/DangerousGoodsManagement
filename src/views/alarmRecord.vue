@@ -134,6 +134,7 @@
             <p class="cot">{{ survey.safetyOfficer }}</p>
           </div>
         </div>
+        <p class="time-tips">账户有效期至{{survey.expiredTime}}</p>
         <div class="boxfoot"></div>
       </div>
       <!-- 滚动信息区域 -->
@@ -174,7 +175,8 @@ export default {
         monitorType: '',
         safetyOfficer: '',
         alarmCounts: 0,
-        controls: 0
+        controls: 0,
+        expiredTime: ''
       },
       remeberClick: -1,
       detetionList: [],
@@ -218,6 +220,9 @@ export default {
       getCompanyInfo(param).then(res=>{
         let data = res.data
          this.survey = {...this.survey,...data}
+         let time = this.survey.expiredTime
+         console.log(time,time.split(''));
+         this.survey.expiredTime = time ? time.split(' ')[0] : '--'
       })
       // this.timer =  setInterval(()=>{
       //   this.getAllSen()
@@ -480,6 +485,13 @@ export default {
       margin-bottom: 5px;
     }
   }
+  .time-tips{
+    margin-top: -10px;
+    font-size: 12px;
+    line-height: 12px;
+    color: #d53b3b;
+    text-align: center;
+  }
   .general {
     margin-bottom: 10px;
   }
@@ -489,6 +501,7 @@ export default {
   }
   .gen-list {
     margin-left: 30px;
+    padding-bottom: 20px;
   }
   .gen-item {
     padding: 10px ;

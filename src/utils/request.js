@@ -59,7 +59,9 @@ service.interceptors.response.use(
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      // if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.code === 401) {
+        this.localStorage.removeItem('token')
+          this.$router.push('/login')
       //   // to re-login
       //   MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
       //     confirmButtonText: 'Re-Login',
@@ -70,7 +72,7 @@ service.interceptors.response.use(
       //       location.reload()
       //     })
       //   })
-      // }
+      }
       return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return res

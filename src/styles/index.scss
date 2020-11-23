@@ -8,7 +8,7 @@
     padding: 0 50px;
     height: 50px;
     line-height: 50px;
-    border-radius: 29px;
+    // border-radius: 29px;
     border: 1px solid rgba(255,255,255,0.7);
   }
   .el-input__prefix {
@@ -21,7 +21,7 @@
     font-size: 20px;
   }
   .el-button {
-    border-radius: 25px;
+    // border-radius: 25px;
     height: 50px;
     // background-color: rgba(255,255,255,0.1);
     border: 0;
@@ -41,4 +41,15 @@
 }
 .seting-container .el-menu-item:focus, .el-menu-item:hover {
   background-color: rgba(255,255,255,0.1);
+}
+ .el-dropdown-menu {
+  background-color: #001C3C;
+  border: 0;
+  color: #fff;
+}
+.el-dropdown-menu__item{
+  color: #fff;
+}
+.el-checkbox__inner {
+  background-color: transparent;
 }

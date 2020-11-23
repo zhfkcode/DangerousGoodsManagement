@@ -4,28 +4,18 @@
       <div class="content">
         <ul class="com-set location">
           <li class="com-item">
-             <el-cascader v-model="params.houstNum" :props="props" :options="cascaderOpt" class="mar-20" placeholder="请选择主机/探头"></el-cascader>
-            <label class="label">位置名称</label>
+             <label class="label">设置探头位置:</label>
+             <el-cascader v-model="params.houstNum" :props="props" :options="cascaderOpt" class="mar-20" placeholder="请输入探头位置信息"></el-cascader>
             <div class="input-box">
               <input type="text" v-model="params.name" class="inpt" placeholder="请输入位置名称">
             </div>
             <el-button type="primary"  @click="updataLocation">保  存</el-button>
           </li>
           <li class="com-item">
-            <label class="label auto">请选择要删除的探头</label>
-            <!-- <el-select v-model='params.delSn'  style="flex: 1;" class="mar-20" placeholder="请选择主机" @change="deleChange">
-              <el-option v-for="item in hostList" :value='item.value' :label="item.label" :key="item.value"></el-option>
-            </el-select>
-            <el-select v-model='params.delSm'  style="flex: 1;" class="mar-20" placeholder="请选择探头" :disabled="!params.delSn">
-              <el-option v-for="item in deletSenList" :value='item.value' :label="item.label" :key="item.value"></el-option>
-            </el-select> -->
+            <label class="label">删除探头信息:</label>
             <el-cascader v-model="params.deletsn" :props="props" :options="cascaderOpt" class="mar-20" placeholder="请选择探头"></el-cascader>
             <el-button type="primary"  @click="deleteName">删  除</el-button>
-            <!-- <div class="tips">温馨提醒: 如果删除主机，该主机下的所有探头也会被删除</div> -->
           </li>
-          <!-- <li class="com-item">
-            <el-button type="primary" style="width: 50%; margin: 0 auto;" @click="updataLocation">保  存</el-button>
-          </li> -->
         </ul>
       </div>
       <div class="boxfoot"></div>
@@ -136,13 +126,10 @@ export default {
     },
     //删除主机探头
     deleteName() {
-      // const snstat = this.params.delSn
-      // const senstat = this.params.delSm
       if(!this.params.deletsn.length) {
         this.$message.warning('请选择要删除的主机/探头')
         return false
       }
-      // const text = !senstat ? '删除主机将删除主机下所有探头，确定删除？' : '确定删除探头？'
       const text = '确定删除探头？'
       this.$confirm(text,'删除提示', {
         confirmButtonText: '确定',
@@ -150,45 +137,14 @@ export default {
         type: 'warning',
         center: true
       }).then(( )=> {
-        // if(!senstat){
-        //   deleteSn({sn: this.params.delSn}).then(res=>{
-        //     this.$message.success('删除成功')
-        //     this.params.delSn= ''
-        //     this.params.delSm= ''
-        //     this.getAllMainId()
-        //   })
-        // }else {
           deleteSensor({ sn: this.params.deletsn[0], sensor_num: this.params.deletsn[1]}).then(res => {
             this.$message.success('删除成功')
-            // this.params.delSn= ''
-            // this.params.delSm= ''
             this.getAllMainId()
           })
-        // }
       }).catch(() => {
 
       })
     },
-    // deleChange() {
-    //   const sn = this.params.delSn
-    //   if(!sn){
-    //     return []
-    //   }
-    //   if(this.deletSnList[sn]){
-    //     this.deletSenList = this.deletSnList[sn]
-    //   }else {
-    //      getCorrespondSn({sn}).then(res=>{
-    //      let data = res.data.map(item=>{
-    //         return {
-    //           value: item,
-    //           label: item,
-    //         }
-    //       })
-    //       this.deletSenList = data
-    //       this.deletSnList[sn] =  data
-    //     })
-    //   }
-    // }
   }
 }
 </script>
@@ -197,8 +153,9 @@ export default {
   height: 100%;
 }
   .com-set {
-    width: 50%;
-    margin: 0 auto;
+    // width: 50%;
+    // margin: 0 auto;
+    padding-left: 50px;
     .com-item {
       position: relative;
       padding: 5px 10px;
@@ -206,7 +163,7 @@ export default {
       display: flex;
     }
     .label {
-      width: 80px;
+      width: 200px;
       font-size: 16px;
       color: #DCF6FF;
       line-height: 40px;
@@ -216,7 +173,8 @@ export default {
       }
     }
     .input-box {
-      flex: 1;
+      width: 200px;
+      // flex: 1;
       position: relative;
       margin-right: 20px;
       .inpt {

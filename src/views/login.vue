@@ -28,9 +28,22 @@
           placeholder="请输入密码"
         />
       </el-form-item>
-      <router-link to='/forgetPwd' class="forget">忘记密码</router-link>
+      <el-form-item prop="code">
+        <el-input
+          :class="loginForm.code ? 'fillword' : ''"
+          prefix-icon="el-icon-key"
+          v-model="loginForm.code"
+          placeholder="请输入验证码"
+          class="code-btn"
+        />
+        <img :src="codeImg"  class="code-put" @click="changCode">
+      </el-form-item>
+      <div class="more-op">
+        <el-checkbox v-model="remmberPwd">记住密码</el-checkbox>
+        <router-link to='/forgetPwd' class="forget">忘记密码</router-link>
+      </div>
       <div class="submit">
-        <el-button @click="Login" type="primary" round class="btn" :loading="loading">登录</el-button>
+        <el-button @click="Login" type="primary" class="btn" :loading="loading">登录</el-button>
         <router-link to='/register'>
           <el-button type="success" class="btn">注册</el-button>
         </router-link>
@@ -44,16 +57,32 @@
 let _ = require('lodash')
 import canDraw from '../utils/canvas'
 import {publicLogin} from '../request/device'
+import { randomCode } from '../utils/randomCode'
 import { log } from 'util'
 export default {
   data() {
+    const codeReg = (rule,value,callback) => {
+        if(value!==this.codeData){
+          callback(new Error('验证码错误'))
+        }else {
+          callback()
+        }
+    }
     return {
       loginForm: {
-      account: 'zhlearn@sina.com',
-      password: '123456',
+      account: '',
+      password: '',
+      code: ''
       },
-      loginRules: {},
-      loading: false
+      loginRules: {
+         account: [{required: true,message: '请输入用户名', trigger: "blur"}],
+         password: [{required: true,message: '请输入密码', trigger: "blur"}],
+         code: [{required: true,message: '请输验证码', trigger: "blur"},{validator:codeReg, trigger: 'blur'}],
+      },
+      loading: false,
+      codeImg: '',
+      codeData: '',
+      remmberPwd: false
     }
   },
   created(){
@@ -61,6 +90,15 @@ export default {
   },
   mounted(){
     this.$nextTick(()=>canDraw())
+    this.getcode()
+    const saveData = localStorage.getItem('remeberPwd')
+    const isRember = saveData ? JSON.parse(saveData) : {}
+    if(isRember) {
+      this.loginForm.account = isRember.account
+      this.loginForm.password = isRember.password
+      this.remmberPwd = true
+    }
+    
     //  window.onresize = _.debounce(() => {
     //   }, 400)
   },
@@ -79,6 +117,7 @@ export default {
           Authorization: 'Basic aGVxaW5nQXBpOmhlcWluZzk5OQ=='
         }).then(res=>{
           console.log(res);
+          this.remeberChange(this.remmberPwd)
           const {tokenType, value} =res.data
           localStorage.setItem('token',tokenType+' '+ value)
           localStorage.setItem('account',this.loginForm.account)
@@ -88,6 +127,19 @@ export default {
           this.loading = false
         })
       })
+    },
+    getcode() {
+      const { code, dataURL} = randomCode()
+      this.codeImg = dataURL
+      this.codeData = code
+    },
+    changCode() {
+      this.getcode()
+    },
+    remeberChange(val) {
+      console.log(val);
+      const saveData = JSON.stringify({account: this.loginForm.account,password: this.loginForm.password})
+      val ? localStorage.setItem('remeberPwd',saveData) : localStorage.removeItem('remeberPwd')
     }
   },
   beforeDestroy() {
@@ -139,6 +191,14 @@ export default {
       width: 100%;
       margin-bottom: 20px;
       font-size: 18px;
+    }
+    .code-btn {
+      width: 70%;
+    }
+    .code-put {
+      width: 110px;
+      height: 50px;
+      float: right;
     }
   }
   .canvas{position: absolute; width:100%; left: 0; top: 0; height: 99%; z-index: 1;}

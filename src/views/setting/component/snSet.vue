@@ -101,28 +101,28 @@ export default {
         type: 'warning',
         center: true
       }).then(( )=> {
-        // if(!senstat){
           deleteSn({sn: item.sn}).then(res=>{
             this.$message.success('删除成功')
              this.getALlSn()
           })
-        // }else {
-          // deleteSensor({ sn: this.params.deletsn[0], sensor_num: this.params.deletsn[1]}).then(res => {
-          //   this.$message.success('删除成功')
-          //   // this.params.delSn= ''
-          //   // this.params.delSm= ''
-          //   this.getAllMainId()
-          // })
-        // }
       }).catch(() => {
 
       })
     },
     //解除绑定
     offBind(item) {
-      offHoust({sn: item.sn}).then(res =>{
-        this.$message.success('解绑成功')
-        item.bind = false
+      this.$confirm('确认解绑？','解绑提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(( )=> {
+        offHoust({sn: item.sn}).then(res =>{
+          this.$message.success('解绑成功')
+          item.bind = false
+        })
+      }).catch(() => {
+
       })
     },
     addShow(type){

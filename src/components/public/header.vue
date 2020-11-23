@@ -18,6 +18,16 @@
         <!-- <span class="desc">多云转小雨</span> -->
         <iframe scrolling="no" src="http://tianqiapi.com/api.php?style=yd&skin=cake&color=fff&fontsize=14&align=center" frameborder="0" width="80%" height="25" allowtransparency="true"></iframe>
       </div>
+      <el-dropdown class="set-drop">
+        <span class="el-dropdown-link">
+          <i class="el-icon-setting set-icon"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>
+            <p @click="logout">退出</p>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -75,6 +85,11 @@ export default {
         this.subTitle = data.companyName
       })
     },
+    logout() {
+      localStorage.removeItem('token')
+      this.$message.success('退出登录')
+      this.$router.push('/login')
+    }
     // getCorrespond() {
     //   getCorrsponed().then(res=>{
     //     localStorage.setItem('corrponsd',JSON.stringify(res.data))
@@ -128,6 +143,7 @@ export default {
   }
   .weth {
     align-self: center;
+    width: 80px;
   }
   .week {
     margin-top: 5px;
@@ -137,6 +153,11 @@ export default {
   .time {
     font-size: 30px;
     margin: 0 15px;
+  }
+  .set-icon {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #fff;
   }
   .menus {
     position: absolute;

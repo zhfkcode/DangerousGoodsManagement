@@ -16,7 +16,7 @@
             :class="loginForm.account ? 'fillword' : ''"
             prefix-icon="el-icon-user"
             v-model="loginForm.account"
-            placeholder="请输入用户名"
+            placeholder="请输入用户注册的邮箱地址"
           />
         </el-form-item>
       <el-form-item prop="password">
@@ -42,8 +42,8 @@
         </el-button>
       </el-form-item>
       <div class="submit">
-        <el-button @click="Login" type="primary" round class="btn" :loading="loading">重置</el-button>
-        <router-link to='/register'>
+        <el-button @click="Login" type="primary" class="btn" :loading="loading">重置</el-button>
+        <router-link to='/login'>
           <el-button type="success" class="btn">返回</el-button>
         </router-link>
       </div>
@@ -120,7 +120,7 @@ export default {
       },1000)
       sendEmail({username: this.loginForm.account}).then(res=> {
         if(res.code === 200 ) {
-          this.$message.success('获取成功')
+          this.$message.success('验证码已发至邮箱')
         }
       })
     }

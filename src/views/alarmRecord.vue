@@ -242,9 +242,9 @@ export default {
       getPicture(param).then(res=>{
         this.backImg = res.data
         this.getAllSen()
-       this.$nextTick(()=>{
-          this.setCurLocation()
-       })
+      //  this.$nextTick(()=>{
+      //     this.setCurLocation()
+      //  })
       })
     },
     switchModel(type){
@@ -270,7 +270,10 @@ export default {
           item.isShow = (this.remeberClick.sn == item.sn && this.remeberClick.sensorNum == item.sensorNum) ? true : false
           return item
         })
-        this.setLocation()
+         this.$nextTick(()=>{
+          this.setCurLocation()
+       })
+        // this.setLocation()
       })
     },
     mqttConnect() {
@@ -343,8 +346,13 @@ export default {
     //设置位置
     setLocation(){
       this.mapShowList = this.detetionList.filter((item,index)=>{
+        console.log('xaxis',item.xAxis);
+        console.log('yAxis',item.yAxis);
+        console.log('=============');
          if(item.xAxis) item.xAxis = item.xAxis * this.locRate.x
           if(item.yAxis) item.yAxis = item.yAxis * this.locRate.y
+          console.log('--xaxis',item.xAxis);
+        console.log('--yAxis',item.yAxis);
           this.corrList.map(ob=>{
             if(ob.sn == item.sn){item.labName=ob.snName}
           })

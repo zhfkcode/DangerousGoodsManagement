@@ -51,7 +51,7 @@
           :class="loginForm.phone ? 'fillword' : ''"
           prefix-icon="el-icon-mobile-phone"
           v-model="loginForm.phone"
-          placeholder="请输入联络人电话"
+          placeholder="请输入联系人手机号"
         />
       </el-form-item>
       <el-form-item prop="pagePwd">

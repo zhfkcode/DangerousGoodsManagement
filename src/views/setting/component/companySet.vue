@@ -9,7 +9,7 @@
           </div>
         </li>
         <li class="com-item">
-          <label class="label">公司联络人电话</label>
+          <label class="label">联系人手机号</label>
           <div class="input-box">
             <input v-model="comInfo.phone" type="text" class="inpt" placeholder="输入公司名称">
           </div>
@@ -73,6 +73,10 @@ export default {
     },
     //更新公司信息
     updataComInfo() {
+      if(!/^1[3456789]\d{9}$/.test(this.comInfo.phone)){
+        this.$message.error('输入手机号有误')
+        return false
+      }
       let params = {
         company_name: this.comInfo.companyName,
         monitor_type : this.comInfo.monitorType,

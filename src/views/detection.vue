@@ -218,6 +218,9 @@ export default {
         sn: mainHead[0] ? mainHead[0]: '',
         status: this.dateSet.mainType
       }
+      if(this.dateSet.mainType == 'all') {
+        params.username = this.username
+      }
        getAlarmEcharts(params).then(res=>{
         let eData = res.data
         let xData = []

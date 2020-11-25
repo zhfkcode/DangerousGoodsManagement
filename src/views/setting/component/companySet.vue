@@ -11,7 +11,7 @@
         <li class="com-item">
           <label class="label">联系人手机号</label>
           <div class="input-box">
-            <input v-model="comInfo.phone" type="text" class="inpt" placeholder="输入公司名称">
+            <input v-model="comInfo.phone" type="text" class="inpt" placeholder="输入联系人手机号">
           </div>
         </li>
         <li class="com-item">

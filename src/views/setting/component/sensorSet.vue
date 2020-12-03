@@ -4,7 +4,7 @@
       <div class="content">
         <ul class="com-set location">
           <li class="com-item">
-             <label class="label">设置探头位置:</label>
+             <label class="label">设置探头位置</label>
              <el-cascader v-model="params.houstNum" :props="props" :options="cascaderOpt" class="mar-20" placeholder="请输入探头位置信息"></el-cascader>
             <div class="input-box">
               <input type="text" v-model="params.name" class="inpt" placeholder="请输入位置名称">
@@ -12,7 +12,7 @@
             <el-button type="primary"  @click="updataLocation">保  存</el-button>
           </li>
           <li class="com-item">
-            <label class="label">删除探头信息:</label>
+            <label class="label">删除探头信息</label>
             <el-cascader v-model="params.deletsn" :props="props" :options="cascaderOpt" class="mar-20" placeholder="请选择探头"></el-cascader>
             <el-button type="primary"  @click="deleteName">删  除</el-button>
           </li>
@@ -56,7 +56,7 @@ export default {
   created(){
     this.username = getLocalItem('account')
      corresponed((res)=>{
-      this.corrList = res ? res : [] 
+      this.corrList = res ? res : []
       this.getAllMainId()
     })
   },

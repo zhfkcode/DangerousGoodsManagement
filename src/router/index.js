@@ -88,7 +88,9 @@ router.beforeEach((to, from, next) => {
     next('/login')
   }else if(token){
     next()
-  }else {}
+  }else {
+
+  }
   next()
 })
 export default router

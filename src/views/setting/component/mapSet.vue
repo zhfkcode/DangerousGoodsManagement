@@ -103,7 +103,7 @@ export default {
   created(){
     this.username = getLocalItem('account')
     corresponed((res)=>{
-      this.corrList = res ? res : [] 
+      this.corrList = res ? res : []
       this.getList()
     })
   },
@@ -188,8 +188,8 @@ export default {
     },
      setCurLocation(items){
       let dom = this.$refs.backImg
-      let w =dom.clientWidth 
-      let h =dom.clientHeight 
+      let w =dom.clientWidth
+      let h =dom.clientHeight
       getImgNaturalDimensions(dom,(res)=>{
         let rateX = w/res.w
         let rateY = h/res.h
@@ -243,6 +243,7 @@ export default {
       }
     },
     //探头选择
+    // eslint-disable-next-line no-unused-vars
     cascaChange (index){
       let sele = this.detetionList.filter((item,index)=>{
           if(this.houstNum[0]==item.sn&&this.houstNum[1]==item.sensorNum) {
@@ -250,7 +251,7 @@ export default {
             return item
           }
         })
-        
+
       this.selectPoint = this.setPointLoc(sele[0])
       // console.log(this.selectPoint);
     },
@@ -268,11 +269,11 @@ export default {
       }
       modifyLoc(param,{'Content-Type': 'multipart/form-data'}).then(res=>{
 
-        if(res.code == 200) {
-          this.$message.success('修改成功') 
+        if(res.code === 200) {
+          this.$message.success('修改成功')
           this.detetionList[this.selected].xAxis = locc.x
           this.detetionList[this.selected].yAxis = locc.y
-        } else{ 
+        } else{
           this.$message.error('修改失败')
         }
       })

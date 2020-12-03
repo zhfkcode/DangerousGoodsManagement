@@ -1,37 +1,39 @@
+// eslint-disable-next-line no-unused-vars
 const webpack = require('webpack')
 const path = require('path')
+// eslint-disable-next-line no-unused-vars
 const resolve = (dir) => path.join(__dirname, dir)
 module.exports = {
-  publicPath: "./",
+  publicPath: './',
   productionSourceMap: false,
-  devServer:{
-    proxy:{
-        '/sfcs':{
-            target: 'http://139.196.141.39:8085/',//代理地址，这里设置的地址会代替axios中设置的baseURL
-            changeOrigin: true,// 如果接口跨域，需要进行这个参数配置
-            //ws: true, // proxy websockets
-            //pathRewrite方法重写url
-            pathRewrite: {
-                '^/sfcs': '/sfcs' 
-                //pathRewrite: {'^/api': '/'} 重写之后url为 http://192.168.1.16:8085/xxxx
-                //pathRewrite: {'^/api': '/api'} 重写之后url为 http://192.168.1.16:8085/api/xxxx
-           }
-        },
-        '/apd':{
-            target: 'http://139.196.141.39:8085/',//代理地址，这里设置的地址会代替axios中设置的baseURL
-            changeOrigin: true,// 如果接口跨域，需要进行这个参数配置
-            //ws: true, // proxy websockets
-            //pathRewrite方法重写url
-            pathRewrite: {
-                '^/apd': '/' 
-                //pathRewrite: {'^/api': '/'} 重写之后url为 http://192.168.1.16:8085/xxxx
-                //pathRewrite: {'^/api': '/api'} 重写之后url为 http://192.168.1.16:8085/api/xxxx
-           }
+  devServer: {
+    proxy: {
+      '/sfcs': {
+        target: 'http://api.heqinginfo.com:8085/', // 代理地址，这里设置的地址会代替axios中设置的baseURL
+        changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
+        // ws: true, // proxy websockets
+        // pathRewrite方法重写url
+        pathRewrite: {
+          '^/sfcs': '/sfcs'
+          // pathRewrite: {'^/api': '/'} 重写之后url为 http://192.168.1.16:8085/xxxx
+          // pathRewrite: {'^/api': '/api'} 重写之后url为 http://192.168.1.16:8085/api/xxxx
         }
-    },
+      },
+      '/apd': {
+        target: 'http://api.heqinginfo.com:8085/', // 代理地址，这里设置的地址会代替axios中设置的baseURL
+        changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
+        // ws: true, // proxy websockets
+        // pathRewrite方法重写url
+        pathRewrite: {
+          '^/apd': '/'
+          // pathRewrite: {'^/api': '/'} 重写之后url为 http://192.168.1.16:8085/xxxx
+          // pathRewrite: {'^/api': '/api'} 重写之后url为 http://192.168.1.16:8085/api/xxxx
+        }
+      }
+    }
   },
   lintOnSave: false,
-  chainWebpack(config) {
+  chainWebpack (config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
@@ -43,11 +45,11 @@ module.exports = {
       }
     ])
     config
-    .plugin('html')
-    .tap(args => {
-      args[0].title= '工厂危险化学品安全监测预警系统'
-      return args
-    })
+      .plugin('html')
+      .tap(args => {
+        args[0].title = '工厂危险化学品安全监测预警系统'
+        return args
+      })
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
 
@@ -72,7 +74,7 @@ module.exports = {
                 lodash: {
                   test: /node_modules\/lodash\//, // lodash 库单独打包，并命名为 vender-lodash
                   name: 'vender-lodash'
-                },
+                }
                 // commons: {
                 //   name: 'chunk-commons',
                 //   test: resolve('src/components'), // can customize your rules
@@ -86,7 +88,7 @@ module.exports = {
           config.optimization.runtimeChunk('single')
         }
       )
-  },
+  }
   // configureWebpack: {
   //   externals: {
   //     'vue': 'Vue',

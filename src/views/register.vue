@@ -89,7 +89,7 @@ import canDraw from '../utils/canvas'
 import {register} from '../request/device'
 import { randomCode } from '../utils/randomCode'
 export default {
-  
+
   data() {
     const surePwd = (rule, value, callback) => {
       if(!value) {
@@ -126,7 +126,7 @@ export default {
           { pattern:/^1[3456789]\d{9}$/,message: '请输入正确手机号',trigger: 'blur'}
         ],
         pagePwd: [{required: true,message: '请输入页面配置密码', trigger: "blur"}],
-        code: [{required: true,message: '请输验证码', trigger: "blur"},{validator:codeReg, trigger: 'blur'}],
+        code: [{required: true,message: '请输入验证码', trigger: "blur"},{validator:codeReg, trigger: 'blur'}],
         email: [
           {required: true,message: '请输入邮箱', trigger: "blur"},
           {type: 'email',message: '请输入正确邮箱', trigger: "blur"}
@@ -145,7 +145,7 @@ export default {
     Login() {
       this.$refs.registerForm.validate(valid => {
         if(!valid){return false}
-        const params = { 
+        const params = {
           company_name: this.loginForm.company,
           password: this.loginForm.password,
           phone: this.loginForm.company,

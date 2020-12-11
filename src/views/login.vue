@@ -77,7 +77,7 @@ export default {
       loginRules: {
          account: [{required: true,message: '请输入用户名', trigger: "blur"}],
          password: [{required: true,message: '请输入密码', trigger: "blur"}],
-         code: [{required: true,message: '请输验证码', trigger: "blur"},{validator:codeReg, trigger: 'blur'}],
+         code: [{required: true,message: '请输入验证码', trigger: "blur"},{validator:codeReg, trigger: 'blur'}],
       },
       loading: false,
       codeImg: '',
@@ -98,7 +98,7 @@ export default {
       this.loginForm.password = isRember.password
       this.remmberPwd = true
     }
-    
+
     //  window.onresize = _.debounce(() => {
     //   }, 400)
   },

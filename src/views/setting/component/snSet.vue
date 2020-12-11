@@ -43,6 +43,7 @@
   </div>
 </template>
 <script>
+  // eslint-disable-next-line no-unused-vars
 import {  corresponed, corresFuns,getLocalItem} from '@/utils/commonFuns'
 import { updataName,deleteSn ,addHoust,offHoust}  from '@/request/device'
 export default {
@@ -66,8 +67,8 @@ export default {
     this.username = getLocalItem('account')
     this.getALlSn()
     // corresponed((res)=>{
-    //   this.corrList = res ? res : [] 
-    //   this.tableData = this.corrList 
+    //   this.corrList = res ? res : []
+    //   this.tableData = this.corrList
     //   this.getAllMainId()
     // })
   },
@@ -87,8 +88,8 @@ export default {
     //获取所有主机信息
     getALlSn() {
        corresponed((res)=>{
-        // this.corrList = res ? res : [] 
-        this.tableData = res ? res : [] 
+        // this.corrList = res ? res : []
+        this.tableData = res ? res : []
         // this.getAllMainId()
       })
     },
@@ -101,6 +102,7 @@ export default {
         type: 'warning',
         center: true
       }).then(( )=> {
+        // eslint-disable-next-line no-unused-vars
           deleteSn({sn: item.sn}).then(res=>{
             this.$message.success('删除成功')
              this.getALlSn()
@@ -117,6 +119,7 @@ export default {
         type: 'warning',
         center: true
       }).then(( )=> {
+        // eslint-disable-next-line no-unused-vars
         offHoust({sn: item.sn}).then(res =>{
           this.$message.success('解绑成功')
           item.bind = false
@@ -135,7 +138,7 @@ export default {
     saveAdd() {
       if(!this.addModel){
         this.modifyName()
-        return 
+        return
       }
       if(!this.snForm.sn){
         this.$message.error('请输入主机编号')

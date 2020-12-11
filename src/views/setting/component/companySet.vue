@@ -47,6 +47,7 @@
 </template>
 <script>
 import {getLocalItem} from '@/utils/commonFuns'
+// eslint-disable-next-line no-unused-vars
 import { getAllMainNum, getCorrespondSn,getCompanyInfo,updataCompany,updataLocation,setLogin,updataName,deleteSn,deleteSensor }  from '@/request/device'
 export default {
   data() {

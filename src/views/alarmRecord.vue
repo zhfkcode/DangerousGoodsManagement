@@ -257,7 +257,12 @@ export default {
     getAllSen() {
       getControlCount().then(res=>{
         this.survey.controls = res.data.length
-        this.detetionList = res.data.map(item=>{
+        let mapData = res.data.map(sn => {
+          sn.sensorNum = sn.sensorNum ? sn.sensorNum*1 : ''
+          return sn
+        })
+        // console.log(mapData);
+        this.detetionList = mapData.map(item=>{
           item.isShow = (this.remeberClick.sn == item.sn && this.remeberClick.sensorNum == item.sensorNum) ? true : false
           return item
         })

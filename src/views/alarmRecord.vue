@@ -61,6 +61,7 @@
           width="170"
           sortable
           align="center"
+          :sort-by="['sn','sensorNum']"
           >
           <template slot-scope="scope">
             {{scope.row.labName || scope.row.sn}}

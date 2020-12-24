@@ -54,7 +54,6 @@
         ref="table"
         :data="detetionList"
         :height='tableHeight'
-        :default-sort = "{prop: 'sensorNum', order: 'descending'}"
         style="width: 100%">
         <el-table-column
           prop="sn"
@@ -268,7 +267,11 @@ export default {
     getAllSen() {
       getControlCount({username: this.username}).then(res=>{
         this.survey.controls = res.data.length
-        this.detetionList = res.data.map(item=>{
+        let mapData = res.data.map(sn => {
+          sn.sensorNum = sn.sensorNum ? sn.sensorNum*1 : ''
+          return sn
+        })
+        this.detetionList = mapData.map(item=>{
           item.isShow = (this.remeberClick.sn == item.sn && this.remeberClick.sensorNum == item.sensorNum) ? true : false
           return item
         })

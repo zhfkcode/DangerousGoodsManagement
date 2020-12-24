@@ -54,6 +54,7 @@
         ref="table"
         :data="detetionList"
         :height='tableHeight'
+        :default-sort = "{prop: 'sensorNum', order: 'descending'}"
         style="width: 100%">
         <el-table-column
           prop="sn"
@@ -61,6 +62,7 @@
           width="170"
           sortable
           align="center"
+          :sort-by="['sn','sensorNum']"
           >
           <template slot-scope="scope">
             {{scope.row.labName || scope.row.sn}}

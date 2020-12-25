@@ -10,7 +10,7 @@
         <img class="bk-img" ref="backImg" :src="backImg" alt="">
         <div class="pop-item" v-for="(item,index) in mapShowList" :key="index" :style="item | locStyle" @mouseenter="deteClick(item,'in')" @mouseleave="deteClick(item,'out')" @dblclick="jumbDetail(item)">
           <!-- <img class="picture" src="../assets/images/smokeDetector.png" alt="" @click="deteClick(index)"> -->
-         <div class="item-tips" :class="{'animate-jumped':item.status == '异常',alarm: item.status == '异常',offline: item.status == '离线'}">
+         <div class="item-tips" :class="item.status | statusClass">
             <svgicon class="danger-icon" :icon-name="item.type | dangerType"></svgicon>
          </div>
          <p class="danger-text">{{item.currentValue+item.unit}}</p>
@@ -199,11 +199,11 @@ export default {
     const options = {
       connectTimeout: 40000,
       clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
-      username: 'admin',
-      password: '123456',
+      username: 'dashboard',
+      password: '5tgb6yhn',
       clean: true
     }
-    this._MQTT = mqtt.connect('ws://47.102.98.102:32976/mqtt', options)
+    this._MQTT = mqtt.connect('ws://www.heqing-lot.top:8083/mqtt', options)
     this.mqttConnect()
     corresponed((res)=>{
       this.corrList = res ? res : [] 
@@ -222,7 +222,6 @@ export default {
         let data = res.data
          this.survey = {...this.survey,...data}
          let time = this.survey.expiredTime
-         console.log(time,time.split(''));
          this.survey.expiredTime = time ? time.split(' ')[0] : '--'
       })
       // this.timer =  setInterval(()=>{
@@ -286,7 +285,7 @@ export default {
         console.log('dingyue');
         this._MQTT.on('connect', (e) => {
           console.log("连接成功！！！")
-          this._MQTT.subscribe('/push/alarm',{qos:1}, (error) => {
+          this._MQTT.subscribe('/push/alarm/'+this.username,{qos:1}, (error) => {
             if (!error) {
               console.log('订阅成功')
             } else {
@@ -408,6 +407,10 @@ export default {
       let x = val.xAxis ? val.xAxis : 0
       let y = val.yAxis ? val.yAxis : 0
       return `top: ${y}px;left:${x}px;`
+    },
+    statusClass(val){
+      const isDanger = val !== '正常' && val !== '离线'
+      return isDanger ? 'animate-jumped alarm' : val == '离线' ? 'offline' : ''
     }
   }
 }

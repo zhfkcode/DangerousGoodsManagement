@@ -224,9 +224,9 @@ export default {
          let time = this.survey.expiredTime
          this.survey.expiredTime = time ? time.split(' ')[0] : '--'
       })
-      // this.timer =  setInterval(()=>{
-      //   this.getAllSen()
-      // },2000)
+      this.timer =  setInterval(()=>{
+        this.getAllSen()
+      },2000)
       getAlarmCount(param).then(res=>{
       this.survey.alarmCounts = res.data
       })
@@ -303,7 +303,7 @@ export default {
           msgs.labName = corresFuns(this.corrList,msgs.sn)
           this.infos.pop()
           this.infos.unshift(msgs)
-          this.searchItem(msgs)
+          // this.searchItem(msgs)
           // this.alarmAudio()
         })
       // }
@@ -350,13 +350,8 @@ export default {
     //设置位置
     setLocation(){
       this.mapShowList = this.detetionList.filter((item,index)=>{
-        console.log('xaxis',item.xAxis);
-        console.log('yAxis',item.yAxis);
-        console.log('=============');
          if(item.xAxis) item.xAxis = item.xAxis * this.locRate.x
           if(item.yAxis) item.yAxis = item.yAxis * this.locRate.y
-          console.log('--xaxis',item.xAxis);
-        console.log('--yAxis',item.yAxis);
           this.corrList.map(ob=>{
             if(ob.sn == item.sn){item.labName=ob.snName}
           })
@@ -409,6 +404,7 @@ export default {
       return `top: ${y}px;left:${x}px;`
     },
     statusClass(val){
+      // console.log(val);
       const isDanger = val !== '正常' && val !== '离线'
       return isDanger ? 'animate-jumped alarm' : val == '离线' ? 'offline' : ''
     }

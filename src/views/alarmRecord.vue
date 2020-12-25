@@ -10,7 +10,7 @@
         <img class="bk-img" ref="backImg" :src="backImg" alt="">
         <div class="pop-item" v-for="(item,index) in mapShowList" :key="index" :style="item | locStyle" @mouseenter="deteClick(item,'in')" @mouseleave="deteClick(item,'out')" @dblclick="jumbDetail(item)">
           <!-- <img class="picture" src="../assets/images/smokeDetector.png" alt="" @click="deteClick(index)"> -->
-         <div class="item-tips" :class="{'animate-jumped':item.status == '异常',alarm: item.status == '异常',offline: item.status == '离线'}">
+         <div class="item-tips" :class="item.status | statusClass">
             <svgicon class="danger-icon" :icon-name="item.type | dangerType"></svgicon>
          </div>
          <p class="danger-text">{{item.currentValue+item.unit}}</p>
@@ -391,6 +391,10 @@ export default {
       let x = val.xAxis ? val.xAxis : 0
       let y = val.yAxis ? val.yAxis : 0
       return `top: ${y}px;left:${x}px;`
+    }, 
+    statusClass(val){
+      const isDanger = val !== '正常' && val !== '离线'
+      return isDanger ? 'animate-jumped alarm' : val == '离线' ? 'offline' : ''
     }
   }
 }

@@ -224,9 +224,9 @@ export default {
          let time = this.survey.expiredTime
          this.survey.expiredTime = time ? time.split(' ')[0] : '--'
       })
-      this.timer =  setInterval(()=>{
-        this.getAllSen()
-      },2000)
+      // this.timer =  setInterval(()=>{
+      //   this.getAllSen()
+      // },2000)
       getAlarmCount(param).then(res=>{
       this.survey.alarmCounts = res.data
       })
@@ -241,10 +241,12 @@ export default {
       //获取图片
       getPicture(param).then(res=>{
         this.backImg = res.data
-        this.getAllSen()
-      //  this.$nextTick(()=>{
-      //     this.setCurLocation()
-      //  })
+        this.timer =  setInterval(()=>{
+          this.getAllSen()
+        },2000)
+       this.$nextTick(()=>{
+          this.setCurLocation()
+       })
       })
     },
     switchModel(type){
@@ -272,10 +274,13 @@ export default {
         })
         this.detetionList = mapData.map(item=>{
           item.isShow = (this.remeberClick.sn == item.sn && this.remeberClick.sensorNum == item.sensorNum) ? true : false
+          this.corrList.map(ob=>{
+            if(ob.sn == item.sn){item.labName=ob.snName}
+          })
           return item
         })
          this.$nextTick(()=>{
-          this.setCurLocation()
+          this.mapModel == 1 ? this.setCurLocation() : this.setLocation()
        })
         // this.setLocation()
       })
@@ -352,9 +357,9 @@ export default {
       this.mapShowList = this.detetionList.filter((item,index)=>{
          if(item.xAxis) item.xAxis = item.xAxis * this.locRate.x
           if(item.yAxis) item.yAxis = item.yAxis * this.locRate.y
-          this.corrList.map(ob=>{
-            if(ob.sn == item.sn){item.labName=ob.snName}
-          })
+          // this.corrList.map(ob=>{
+          //   if(ob.sn == item.sn){item.labName=ob.snName}
+          // })
           return item.xAxis
         })
     },

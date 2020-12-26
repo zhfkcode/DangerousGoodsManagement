@@ -73,6 +73,11 @@
           align="center"
           />
         <el-table-column
+          prop="typeName"
+          label="监测种类"
+          align="center"
+          />
+        <el-table-column
           prop="currentValue"
           label="监测值"
           align="center"
@@ -86,6 +91,7 @@
           prop="levelTwoLimited"
           label="Ⅱ级/上警限"
           align="center"
+           width="100"
         />
         <el-table-column
           prop="ranges"
@@ -98,11 +104,16 @@
           align="center"
         />
         <el-table-column
-          prop="status"
           label="状态"
           sortable
           align="center"
-        />
+        >
+          <template slot-scope="scope">
+            <span class="table-status" :class="scope.row.status | statusClass">
+              {{ scope.row.status }}
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="location"
           label="位置"
@@ -571,6 +582,15 @@ export default {
     transform: translateY(30px);
     // position: absolute;
     // width: 100%;
+  }
+  .table-status {
+    color: #00fc00;
+    &.alarm {
+    color: red;
+    }
+    &.offline, &.offline + .danger-text {
+      color: #FFA500;
+    }
   }
 }
 </style>

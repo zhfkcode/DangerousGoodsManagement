@@ -304,10 +304,10 @@ export let pieOption = {
         color: '#ffffff'
       }
   },
-  // tooltip: {
-  //     trigger: 'item',
-  //     formatter: '{a} <br/>{b} : {c} ({d}%)'
-  // },
+  tooltip: {
+      trigger: 'item',
+      // formatter: '{a} <br/>{b} : {c} ({d}%)'
+  },
   // legend: {
   //     type: 'scroll',
   //     orient: 'vertical',
@@ -325,6 +325,9 @@ export let pieOption = {
           radius: '55%',
           center: ['40%', '50%'],
           data: [],
+          label: {
+            position: 'inner'
+          },
           emphasis: {
               itemStyle: {
                   shadowBlur: 10,

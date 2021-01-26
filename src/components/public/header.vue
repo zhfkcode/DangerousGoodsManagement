@@ -3,7 +3,7 @@
     <ul class="menus" v-if="!hiddenMenu">
       <router-link v-for="item in menus" :to="item.path" :key="item.path"  tag="li" class="menu-item">{{item.name}}</router-link>
     </ul>
-    <h1 class="title" :class="{single: !subTitle}">工业生产安全监测预警系统</h1>
+    <h1 class="title" :class="{single: !subTitle}">{{mainTitle}}</h1>
     <h2 class="sub-title" v-if="subTitle">——{{subTitle}}</h2>
     <div class="date-weth">
       <div class="date">
@@ -50,7 +50,8 @@ export default {
         {path: '/setting',name: '系统设置'},
       ],
       timer: null,
-      hiddenMenu: false
+      hiddenMenu: false,
+      mainTitle: ''
     }
   },
   created(){
@@ -83,6 +84,7 @@ export default {
        getCompanyInfo({username: acct}).then(res=>{
         let data = res.data
         this.subTitle = data.companyName
+        this.mainTitle = data.systemName || '工业生产安全监测预警系统'
       })
     },
     logout() {

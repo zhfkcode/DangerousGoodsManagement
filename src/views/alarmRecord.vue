@@ -145,6 +145,7 @@
             <p class="name">安全员：</p>
             <p class="cot">{{ survey.safetyOfficer }}</p>
           </div>
+          <div id="pie" class="pie-echarts"></div>
         </div>
         <p class="time-tips">账户有效期至{{survey.expiredTime}}</p>
         <div class="boxfoot"></div>
@@ -171,7 +172,8 @@
 import { format, getImgNaturalDimensions, corresponed,corresFuns,getLocalItem } from '../utils/commonFuns'
  import mqtt from 'mqtt'
 import { getCompanyInfo, getAlarmCount, getControlCount, getLastAlarm, getPicture } from '../request/device'
-import { log } from 'util'
+import { pieOption } from '@/utils/eOptions'
+import echarts from 'echarts'
 let _ = require('lodash')
 export default {
   data() {
@@ -283,6 +285,7 @@ export default {
           sn.sensorNum = sn.sensorNum ? sn.sensorNum*1 : ''
           return sn
         })
+        // console.log(mapData);
         this.detetionList = mapData.map(item=>{
           item.isShow = (this.remeberClick.sn == item.sn && this.remeberClick.sensorNum == item.sensorNum) ? true : false
           this.corrList.map(ob=>{
@@ -365,14 +368,37 @@ export default {
     },
     //设置位置
     setLocation(){
+      let pieData = {}
       this.mapShowList = this.detetionList.filter((item,index)=>{
          if(item.xAxis) item.xAxis = item.xAxis * this.locRate.x
           if(item.yAxis) item.yAxis = item.yAxis * this.locRate.y
+          // echarts data
+          let stat = item.status
+          if(!pieData[stat]){
+            pieData[stat] = 0
+          }
+          pieData[stat]+=1
           // this.corrList.map(ob=>{
           //   if(ob.sn == item.sn){item.labName=ob.snName}
           // })
           return item.xAxis
         })
+        this.initEchart(pieData)
+    },
+    initEchart(pieData) {
+      let echartData = []
+      for (const key in pieData) {
+        echartData.push({
+          name: key,
+          value: pieData[key],
+          // itemStyle: {
+          //   color: color
+          // }
+        })
+      }
+      pieOption.series[0].data = echartData
+      let instancePie = echarts.init(document.getElementById('pie'))
+      instancePie.setOption(pieOption)
     },
     //查找项
     searchItem(item){
@@ -418,9 +444,8 @@ export default {
       let x = val.xAxis ? val.xAxis : 0
       let y = val.yAxis ? val.yAxis : 0
       return `top: ${y}px;left:${x}px;`
-    },
+    }, 
     statusClass(val){
-      // console.log(val);
       const isDanger = val !== '正常' && val !== '离线'
       return isDanger ? 'animate-jumped alarm' : val == '离线' ? 'offline' : ''
     }
@@ -591,6 +616,10 @@ export default {
     &.offline, &.offline + .danger-text {
       color: #FFA500;
     }
+  }
+  .pie-echarts {
+    width: 100%;
+    height: 300px;
   }
 }
 </style>

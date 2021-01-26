@@ -10,7 +10,7 @@
         auto-complete="on"
         label-position="left"
       >
-      <h2 class="lg-title">工厂危险化学品安全监测预警系统</h2>
+      <h2 class="lg-title">工业生产安全监测预警系统</h2>
         <el-form-item prop="account">
           <el-input
             :class="loginForm.account ? 'fillword' : ''"

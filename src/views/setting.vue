@@ -4,6 +4,12 @@
       <h2 class="com-title">公司信息设置</h2>
       <ul class="com-set">
         <li class="com-item">
+          <label class="label">系统名称</label>
+          <div class="input-box">
+            <input v-model="comInfo.sysName" type="text" class="inpt" placeholder="输入系统名称">
+          </div>
+        </li>
+        <li class="com-item">
           <label class="label">公司名称</label>
           <div class="input-box">
             <input v-model="comInfo.companyName" type="text" class="inpt" placeholder="输入公司名称">
@@ -112,6 +118,7 @@ export default {
         safetyOfficer: '',
         pwd: '',
         superPwd: '',
+        systemName: ''
       },
       params: {
         houstNum: [],
@@ -158,6 +165,7 @@ export default {
     //更新公司信息
     updataComInfo() {
       let params = {
+        system_name: this.comInfo.systemName,
         company_name: this.comInfo.companyName,
         monitor_type : this.comInfo.monitorType,
         password : this.comInfo.pwd,

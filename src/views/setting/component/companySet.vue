@@ -3,6 +3,12 @@
       <h2 class="com-title">公司信息设置</h2>
       <ul class="com-set">
         <li class="com-item">
+          <label class="label">系统名称</label>
+          <div class="input-box">
+            <input v-model="comInfo.systemName" type="text" class="inpt" placeholder="输入系统名称">
+          </div>
+        </li>
+        <li class="com-item">
           <label class="label">公司名称</label>
           <div class="input-box">
             <input v-model="comInfo.companyName" type="text" class="inpt" placeholder="输入公司名称">
@@ -58,6 +64,7 @@ export default {
         safetyOfficer: '',
         pwd: '',
         superPwd: '',
+        systemName:''
       },
     }
   },
@@ -69,6 +76,7 @@ export default {
     getCompany() {
       const acc = getLocalItem('account')
       getCompanyInfo({username: acc}).then(res=>{
+        res.data.systemName = res.data.systemName || '工业生产安全监测预警系统'
         this.comInfo = {...this.comInfo,...res.data}
       })
     },
@@ -79,6 +87,7 @@ export default {
         return false
       }
       let params = {
+        system_name: this.comInfo.systemName,
         company_name: this.comInfo.companyName,
         monitor_type : this.comInfo.monitorType,
         password : this.comInfo.pwd,

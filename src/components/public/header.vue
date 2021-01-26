@@ -3,7 +3,7 @@
     <ul class="menus" v-if="!hiddenMenu">
       <router-link v-for="item in menus" :to="item.path" :key="item.path"  tag="li" class="menu-item">{{item.name}}</router-link>
     </ul>
-    <h1 class="title" :class="{single: !subTitle}">工厂危险化学品安全监测预警系统</h1>
+    <h1 class="title" :class="{single: !subTitle}">工业生产安全监测预警系统</h1>
     <h2 class="sub-title" v-if="subTitle">——{{subTitle}}</h2>
     <div class="date-weth">
       <div class="date">

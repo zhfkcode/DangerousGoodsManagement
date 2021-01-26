@@ -297,26 +297,26 @@ export default function canvasDraw (){
   Build.prototype.run = function() {
     this.anim();
 
-    window.addEventListener('mousemove', function(e) {
+    this.canvas.addEventListener('mousemove', function(e) {
       this.toX = (e.clientX - this.canvas.width / 2) * -0.8;
       this.toY = (e.clientY - this.canvas.height / 2) * 0.8;
     }.bind(this));
-    window.addEventListener('touchmove', function(e) {
-      e.preventDefault();
-      this.toX = (e.touches[0].clientX - this.canvas.width / 2) * -0.8;
-      this.toY = (e.touches[0].clientY - this.canvas.height / 2) * 0.8;
-    }.bind(this));
-    window.addEventListener('mousedown', function(e) {
+    // window.addEventListener('touchmove', function(e) {
+    //   e.preventDefault();
+    //   this.toX = (e.touches[0].clientX - this.canvas.width / 2) * -0.8;
+    //   this.toY = (e.touches[0].clientY - this.canvas.height / 2) * 0.8;
+    // }.bind(this));
+    this.canvas.addEventListener('mousedown', function(e) {
       for (var i = 0; i < 100; i++) {
         this.add();
       }
     }.bind(this));
-    window.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      for (var i = 0; i < 100; i++) {
-        this.add();
-      }
-    }.bind(this));
+    // window.addEventListener('touchstart', function(e) {
+    //   e.preventDefault();
+    //   for (var i = 0; i < 100; i++) {
+    //     this.add();
+    //   }
+    // }.bind(this));
   };
   var app1 = new Build();
   app1.run();
